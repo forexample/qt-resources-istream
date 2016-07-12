@@ -1,4 +1,5 @@
 #include <iostream> // std::cout
+#include <string> // std::getline
 
 #include <foo.hpp>
 
