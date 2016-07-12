@@ -14,8 +14,33 @@ find_package(Qt5Widgets REQUIRED)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_executable(qtapp main.cpp qtapp.qrc config.ini)
+set(qtapp_sources main.cpp qtapp.qrc config.ini)
+
+if(ANDROID)
+  add_library(qtapp SHARED ${qtapp_sources})
+  set_target_properties(qtapp PROPERTIES VERSION 1.0)
+
+  hunter_add_package(QtAndroidCMake)
+  list(APPEND CMAKE_MODULE_PATH "${QTANDROIDCMAKE_ROOT}")
+  include(AddQtAndroidApk) # add_qt_android_apk
+
+  add_qt_android_apk(
+      TARGET qtapp-apk
+      BASE_TARGET qtapp
+      PACKAGE_NAME com.github.forexample.qtresourcesistream
+      INSTALL
+  )
+else()
+  add_executable(qtapp ${qtapp_sources})
+endif()
 
 add_library(foo foo.cpp foo.hpp)
 
 target_link_libraries(qtapp PUBLIC Qt5::Widgets foo)
+
+if(ANDROID OR IOS)
+  # Test manually
+else()
+  enable_testing()
+  add_test(NAME QtRun COMMAND qtapp)
+endif()
