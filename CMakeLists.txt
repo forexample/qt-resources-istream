@@ -14,7 +14,7 @@ find_package(Qt5Widgets REQUIRED)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(qtapp_sources main.cpp qtapp.qrc config.ini)
+set(qtapp_sources main.cpp qtapp.qrc gemma.png)
 
 if(ANDROID)
   add_library(qtapp SHARED ${qtapp_sources})

@@ -1,11 +1,10 @@
 #include <iostream> // std::cout
 #include <string> // std::getline
+#include <fstream> // std::ofstream
 
 #include <foo.hpp>
 
 void foo(std::istream& stream) {
-  std::string line;
-  for (int i = 0; std::getline(stream, line); ++i) {
-    std::cout << "line #" << i << ": " << line << std::endl;
-  }
+  std::ofstream file("output.png", std::ios::binary);
+  file << stream.rdbuf();
 }
